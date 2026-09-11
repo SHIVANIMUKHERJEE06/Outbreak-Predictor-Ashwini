@@ -1,0 +1,15 @@
+# Python dependencies for the ML pipeline (ml-pipeline/ folder)
+#
+# Install with:  pip install -r requirements.txt
+#
+# These are the exact versions this project was built and tested
+# against. If installation fails on your system, try removing the
+# version numbers (e.g. just "prophet" instead of "prophet==1.4.0")
+# to let pip pick a compatible version for your platform.
+
+pandas==3.0.2
+numpy==2.4.4
+requests==2.33.1
+scikit-learn==1.8.0
+prophet==1.4.0
+streamlit==1.63.0

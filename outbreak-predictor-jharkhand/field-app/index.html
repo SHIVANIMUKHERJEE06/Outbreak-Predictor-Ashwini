@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/icon-192.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#C2185B" />
+    <title>Field Log</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="spine" aria-hidden="true"></div>
+
+    <div id="app">
+      <header class="masthead">
+        <p class="eyebrow">District Health Register</p>
+        <h1>Field Log</h1>
+        <div class="status-row">
+          <span id="connection-status" class="status-pill">Checking connection</span>
+          <span id="server-status" class="status-pill">Checking server</span>
+        </div>
+      </header>
+
+      <form id="log-form">
+        <div class="ledger-row">
+          <label for="district">District</label>
+          <select id="district" required>
+            <option value="">Choose district</option>
+            <option value="814112">Deoghar</option>
+            <option value="834001">Ranchi</option>
+            <option value="826001">Dhanbad</option>
+            <option value="827001">Bokaro</option>
+            <option value="831001">Jamshedpur</option>
+            <option value="833201">West Singhbhum</option>
+            <option value="816109">Sahibganj</option>
+            <option value="822101">Palamu</option>
+          </select>
+        </div>
+
+        <div class="ledger-row">
+          <label for="disease">Suspected illness</label>
+          <select id="disease" required>
+            <option value="">Choose category</option>
+            <option value="Malaria">Malaria — fever with chills, sweating</option>
+            <option value="Dengue">Dengue — high fever, joint pain, rash</option>
+            <option value="Kala-azar">Kala-azar — prolonged fever, weight loss</option>
+            <option value="ADD/Cholera">Diarrheal disease — diarrhea, dehydration</option>
+            <option value="Typhoid">Typhoid — sustained fever, weakness</option>
+            <option value="Other">Other / unsure</option>
+          </select>
+        </div>
+
+        <div class="ledger-row count-row">
+          <label for="case-count">Cases observed today</label>
+          <input type="number" id="case-count" min="0" max="200" required />
+        </div>
+
+        <div class="ledger-row">
+          <label for="notes">Notes</label>
+          <textarea id="notes" rows="2" placeholder="Optional detail..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save entry</button>
+      </form>
+
+      <section id="queue-section">
+        <div class="section-heading">
+          <h2>Entries awaiting sync</h2>
+          <span id="queue-count" class="count-badge">0</span>
+        </div>
+
+        <ul id="queue-list"></ul>
+
+        <div id="stamp-banner" class="stamp-banner" hidden>
+          <span class="stamp">Synced</span>
+          <span id="stamp-detail"></span>
+        </div>
+
+        <div class="action-row">
+          <button id="sync-btn" class="btn btn-forest" disabled>Sync to server</button>
+          <button id="export-btn" class="btn btn-outline" disabled>Export backup CSV</button>
+        </div>
+        <p id="sync-message" class="hint"></p>
+        <p class="hint">
+          Entries save on this device the moment you tap "Save entry" — with
+          or without a connection. Sync sends them to the prediction server;
+          the CSV export is a manual backup if the server can't be reached.
+        </p>
+      </section>
+    </div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

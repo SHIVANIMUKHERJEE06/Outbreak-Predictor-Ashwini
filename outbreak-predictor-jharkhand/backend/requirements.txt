@@ -1,0 +1,23 @@
+# Backend dependencies (backend/ folder)
+#
+# Install with:  pip install -r requirements.txt
+# Run with:      uvicorn main:app --reload --port 8000
+#
+# IMPORTANT: this server runs ml-pipeline's scripts as subprocesses
+# using its OWN Python interpreter (sys.executable). That means this
+# environment needs every package those scripts import too - not just
+# FastAPI's own dependencies. If you install this in a separate venv
+# from ml-pipeline, /api/recompute will fail every time with a
+# ModuleNotFoundError, because detect_clusters.py and
+# forecast_outbreak.py won't be able to find scikit-learn or prophet.
+#
+# Simplest fix: install this file into the SAME environment (or venv)
+# where you already installed ml-pipeline/requirements.txt.
+
+fastapi==0.141.1
+uvicorn==0.52.4
+pandas==3.0.2
+pydantic==2.13.5
+scikit-learn==1.8.0
+prophet==1.4.0
+

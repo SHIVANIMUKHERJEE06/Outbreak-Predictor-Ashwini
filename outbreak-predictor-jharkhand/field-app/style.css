@@ -1,0 +1,304 @@
+/* Space Grotesk and IBM Plex Sans are loaded via @fontsource imports
+   in main.js, which lets Vite bundle the actual font files locally
+   (so the service worker can cache them for offline use) instead of
+   fetching them from a CDN. */
+
+:root {
+  --ink: #2b2118;
+  --ink-soft: #5c5245;
+  --paper: #e8e2d0;
+  --paper-raised: #f1ece0;
+  --rani: #c2185b;
+  --rani-deep: #931345;
+  --turmeric: #c08a1e;
+  --forest: #3f6b4f;
+  --brick: #a8402f;
+  --rule: rgba(43, 33, 24, 0.16);
+  --rule-soft: rgba(43, 33, 24, 0.08);
+
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 35px,
+    var(--rule-soft) 35px,
+    var(--rule-soft) 36px
+  );
+}
+
+/* The bound-ledger spine running down the left edge of the page */
+.spine {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 100%;
+  background: var(--rani);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.15) 0,
+    rgba(255, 255, 255, 0.15) 2px,
+    transparent 2px,
+    transparent 10px
+  );
+  z-index: 5;
+}
+
+#app {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 3rem 2rem;
+}
+
+.masthead .eyebrow {
+  margin: 0 0 0.15rem;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.02em;
+}
+
+.masthead h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2.1rem;
+  margin: 0 0 0.6rem;
+  letter-spacing: -0.01em;
+}
+
+.status-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.4rem;
+}
+
+.status-pill {
+  font-size: 0.78rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  background: var(--paper-raised);
+  font-family: var(--font-display);
+}
+
+.status-pill.good {
+  border-color: var(--forest);
+  color: var(--forest);
+}
+.status-pill.bad {
+  border-color: var(--brick);
+  color: var(--brick);
+}
+
+/* Ledger-row form fields: underline style, not boxed inputs */
+form {
+  margin-bottom: 2rem;
+}
+
+.ledger-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.ledger-row label {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+select,
+textarea {
+  border: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--ink);
+  padding: 0.2rem 0;
+  resize: none;
+}
+
+select:focus,
+textarea:focus,
+input:focus {
+  outline: 2px solid var(--rani);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* The case-count field gets a distinct instrument-readout treatment,
+   since it's the one number this whole app exists to capture. */
+.count-row input {
+  border: none;
+  background: transparent;
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--rani-deep);
+  width: 100%;
+  padding: 0.1rem 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.btn {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.98rem;
+  padding: 0.75rem 1.1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn-primary {
+  background: var(--rani);
+  color: var(--paper);
+}
+.btn-primary:active {
+  background: var(--rani-deep);
+}
+
+.btn-forest {
+  background: var(--forest);
+  color: var(--paper);
+  margin-bottom: 0.6rem;
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--rule);
+}
+
+.btn:disabled {
+  background: var(--paper-raised);
+  color: var(--ink-soft);
+  border: 1px solid var(--rule);
+  cursor: not-allowed;
+}
+
+.action-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin-bottom: 0.9rem;
+}
+
+.section-heading h2 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.count-badge {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--rani-deep);
+}
+
+#queue-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+/* Each queued entry looks like a torn paper slip from a register book */
+#queue-list li {
+  background: var(--paper-raised);
+  border: 1px dashed var(--rule);
+  border-radius: 2px;
+  padding: 0.7rem 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 0.87rem;
+  position: relative;
+}
+
+#queue-list li:nth-child(odd) {
+  transform: rotate(-0.4deg);
+}
+#queue-list li:nth-child(even) {
+  transform: rotate(0.3deg);
+}
+
+#queue-list li strong {
+  font-family: var(--font-display);
+}
+
+#queue-list li small {
+  color: var(--ink-soft);
+}
+
+.remove-btn {
+  background: transparent;
+  border: none;
+  color: var(--brick);
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0 0.3rem;
+  cursor: pointer;
+}
+
+/* The ink-stamp moment: appears once a sync to the server succeeds */
+.stamp-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.stamp {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: var(--forest);
+  border: 2.5px solid var(--forest);
+  border-radius: 4px;
+  padding: 0.25rem 0.6rem;
+  transform: rotate(-6deg);
+  display: inline-block;
+}
+
+#stamp-detail {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
