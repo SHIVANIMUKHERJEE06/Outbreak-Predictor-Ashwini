@@ -1,0 +1,9 @@
+pincode,district,disease_type,avg_actual_recent,avg_forecast_upper_bound,percent_above_forecast,is_trending_anomaly
+814112,Deoghar,Kala-azar (Visceral Leishmaniasis),2.7,4.9,-44.7,False
+816109,Sahibganj,Acute Diarrheal Disease / Cholera,3.3,4.8,-30.9,False
+822101,Palamu,Typhoid,1.1,2.2,-48.8,False
+826001,Dhanbad,Dengue,3.3,8.6,-61.7,False
+827001,Bokaro,Dengue,2.6,4.8,-46.8,False
+831001,Jamshedpur,Dengue,3.9,7.4,-48.1,False
+833201,West Singhbhum,Malaria (P. falciparum),20.1,7.7,160.6,True
+834001,Ranchi,Dengue,3.7,5.9,-36.9,False
