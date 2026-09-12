@@ -16,23 +16,44 @@ from datetime import datetime
 import json
 from pathlib import Path
 import pandas as pd
+import requests
 import streamlit as st
 
 BASE_DIR = Path(__file__).resolve().parent
+RENDER_API_BASE = "https://outbreak-predictor-ashwini.onrender.com"
 
 st.set_page_config(page_title="Outbreak Early Warning - Jharkhand", layout="wide")
-
 st.title("Smart Health Surveillance & Outbreak Predictor")
 st.caption("Early warning system for localized disease outbreaks in Jharkhand - demo data")
 
+# Sidebar Refresh Button for live demos
+if st.sidebar.button("🔄 Sync Live Data"):
+  st.cache_data.clear()
+  st.rerun()
 
+
+@st.cache_data(ttl=5)
 def load_data():
-  # Resolve path relative to dashboard.py location
-  risk_path = BASE_DIR / "risk_scores.csv"
-  case_path = BASE_DIR / "case_data.csv"
+  # 1. Attempt to fetch fresh live risk scores from the Render backend
+  try:
+    resp = requests.get(f"{RENDER_API_BASE}/api/risk-scores", timeout=6)
+    if resp.status_code == 200 and resp.json():
+      risk_scores = pd.DataFrame(resp.json())
+    else:
+      risk_scores = pd.read_csv(BASE_DIR / "risk_scores.csv")
+  except Exception:
+    risk_scores = pd.read_csv(BASE_DIR / "risk_scores.csv")
 
-  risk_scores = pd.read_csv(risk_path)
-  case_data = pd.read_csv(case_path)
+  # 2. Attempt to fetch case data from backend, fallback to local CSV
+  try:
+    resp_cases = requests.get(f"{RENDER_API_BASE}/api/case-data", timeout=6)
+    if resp_cases.status_code == 200 and resp_cases.json():
+      case_data = pd.DataFrame(resp_cases.json())
+    else:
+      case_data = pd.read_csv(BASE_DIR / "case_data.csv")
+  except Exception:
+    case_data = pd.read_csv(BASE_DIR / "case_data.csv")
+
   case_data["date"] = pd.to_datetime(case_data["date"])
   return risk_scores, case_data
 
