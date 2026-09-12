@@ -12,10 +12,13 @@ It shows:
   - A button to generate a mock IHIP-format export for the selected district
 """
 
+from datetime import datetime
+import json
+from pathlib import Path
 import pandas as pd
 import streamlit as st
-import json
-from datetime import datetime
+
+BASE_DIR = Path(__file__).resolve().parent
 
 st.set_page_config(page_title="Outbreak Early Warning - Jharkhand", layout="wide")
 
@@ -24,14 +27,14 @@ st.caption("Early warning system for localized disease outbreaks in Jharkhand - 
 
 
 def load_data():
-    # No caching here on purpose: this data is small, and we WANT
-    # every page refresh to pick up newly synced field entries rather
-    # than showing stale, cached numbers.
-    risk_scores = pd.read_csv("risk_scores.csv")
-    case_data = pd.read_csv("case_data.csv")
-    case_data["date"] = pd.to_datetime(case_data["date"])
-    return risk_scores, case_data
+  # Resolve path relative to dashboard.py location
+  risk_path = BASE_DIR / "risk_scores.csv"
+  case_path = BASE_DIR / "case_data.csv"
 
+  risk_scores = pd.read_csv(risk_path)
+  case_data = pd.read_csv(case_path)
+  case_data["date"] = pd.to_datetime(case_data["date"])
+  return risk_scores, case_data
 
 try:
     risk_scores, case_data = load_data()
